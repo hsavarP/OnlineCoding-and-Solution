@@ -1,0 +1,138 @@
+// Problem Link-> https://www.codechef.com/MAY20B/problems/TRPLSRT
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+//package pkg21.days.of.code;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.*;
+/**
+ *
+ * @author Pravash Ranjan
+ */
+class Triple_Sort {
+    static class FastReader{BufferedReader br;StringTokenizer st;public FastReader(){br = new BufferedReader(new InputStreamReader(System.in));}String next(){ while (st == null || !st.hasMoreElements()){try{st = new StringTokenizer(br.readLine());}
+        catch (IOException  e){e.printStackTrace();}}return st.nextToken();}int nextInt(){return Integer.parseInt(next());}long nextLong(){return Long.parseLong(next());} 
+        double nextDouble(){return Double.parseDouble(next());}String nextLine(){String str = ""; try{str = br.readLine();}catch (IOException e){e.printStackTrace();}return str;}}
+   public static void main(String args[])
+   {
+       FastReader ob=new FastReader();
+       int t=ob.nextInt();
+       StringBuilder sb=new StringBuilder("");
+       while(t-->0)
+       {
+           int n=ob.nextInt();int k=ob.nextInt();int operations=0;
+           HashMap<Integer,Integer> map=new HashMap<>();
+           int in[]=new int[n+1];int a[]=new int[n+1];
+           StringBuilder idt=new StringBuilder("");
+           for(int i=1;i<=n;i++)
+           {
+               in[i]=ob.nextInt();a[i]=in[i];
+               map.put(in[i],i);
+           }
+           /*
+           Arrays.sort(in);
+           HashMap<Integer,Integer> sorted_pos=new HashMap<>();
+           for(int i=1;i<=n;i++)
+               sorted_pos.put(in[i], i);
+           for(int i=1;i<=n;i++)
+               a[i]=sorted_pos.get(a[i]);
+           */
+           //System.out.println(Arrays.toString(a));
+           HashSet<Integer> set=new HashSet<>();
+           ArrayList<Integer> cycles=new ArrayList<>();
+           ArrayList<Integer> left=new ArrayList<>();
+           //ArrayList<String> ans=new ArrayList<>();
+           for(int i=1;i<=n;i++)
+           {
+               if(i!=a[i] && !set.contains(i))
+               {
+                   
+                   int start=i;int pos=a[i];
+                   //System.out.print(pos+" ");
+                   while(pos!=start)
+                   {
+                       set.add(pos);cycles.add(pos);
+                       //System.out.print(pos+" ");
+                       pos=a[pos];
+                   } 
+                   set.add(start);cycles.add(start);
+                   //System.out.println("cycles->"+cycles);
+                   int idx=0;
+                   while(idx<cycles.size()-2)
+                   {
+                       int pos1=map.get(cycles.get(idx));int pos2=map.get(cycles.get(idx+1));int pos3=map.get(cycles.get(idx+2));
+                       //ans.add(pos1+" "+pos2+" "+pos3);
+                       idt.append(pos1+" "+pos2+" "+pos3+"\n");
+                       operations++;
+                       //set.remove(cycles.get(idx));set.remove(cycles.get(idx-1));
+                       map.put(cycles.get(idx),pos2);
+                       map.put(cycles.get(idx+1),pos3);
+                       map.put(cycles.get(idx+2),pos1);
+                       idx+=2;
+                   }
+                   if(idx<cycles.size()-1)
+                   {
+                       left.add(cycles.get(idx));left.add(cycles.get(idx+1));
+                   }
+                   cycles.clear();
+                   if(left.size()==4)
+                   {
+                       int pos1=map.get(left.get(0));int pos2=map.get(left.get(1));int pos3=map.get(left.get(2));
+                       //ans.add(pos1+" "+pos2+" "+pos3);
+                       idt.append(pos1+" "+pos2+" "+pos3+"\n");
+                       operations++;
+                       map.put(left.get(0), pos2);
+                       map.put(left.get(1), pos3);
+                       map.put(left.get(2), pos1);
+                       pos1=map.get(left.get(2));pos2=map.get(left.get(3));pos3=map.get(left.get(1));
+                       //ans.add(map.get(left.get(2))+" "+map.get(left.get(3))+" "+map.get(left.get(1)));
+                       idt.append(pos1+" "+pos2+" "+pos3+"\n");
+                       operations++;                       
+                       map.put(left.get(2), pos2);
+                       map.put(left.get(3), pos3);
+                       map.put(left.get(1), pos1);
+                       left.clear();
+                   }
+                   //System.out.println(start);
+               }
+           }
+           if(left.size()!=0 || operations>k)
+               sb.append(-1+"\n");
+           else
+           {
+               if(operations==0)
+                   System.out.println(0+"\n");
+               else
+               {
+                   sb.append(operations+"\n");
+                   sb.append(idt);                
+               }
+           }
+       }
+       System.out.print(sb);
+       
+   }
+}
+/*
+3
+1 2 3
+1 4 3
+5 6 7
+3
+1 2 3
+1 4 3
+5 7 6
+3
+3 4 5
+1 2 6
+1 7 6
+-1
+-1
+*/

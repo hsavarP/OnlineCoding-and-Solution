@@ -1,0 +1,15 @@
+//https://www.codechef.com/problems/PERMWAR
+//author: Pravash Ranjan Nayak
+import java.util.*;
+class Solution
+{
+    
+    public static void main(String args[])
+    {
+        Scanner ob=new Scanner(System.in);
+        long n=ob.nextLong();
+        long m=n*(n+1)/2;
+        System.out.println(m-n);
+
+    }
+}

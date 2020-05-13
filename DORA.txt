@@ -1,0 +1,64 @@
+//https://www.codechef.com/problems/CHFDORA
+//author : Pravash Ranjan Nayak
+
+
+
+//package pkg21.days.of.code;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+/**
+ *
+ * @author Pravash Ranjan
+ */
+ class matrix {
+    static class FastReader{BufferedReader br;StringTokenizer st;public FastReader(){br = new BufferedReader(new InputStreamReader(System.in));}String next(){ while (st == null || !st.hasMoreElements()){try{st = new StringTokenizer(br.readLine());}
+        catch (IOException  e){e.printStackTrace();}}return st.nextToken();}int nextInt(){return Integer.parseInt(next());}long nextLong(){return Long.parseLong(next());} 
+        double nextDouble(){return Double.parseDouble(next());}String nextLine(){String str = ""; try{str = br.readLine();}catch (IOException e){e.printStackTrace();}return str;}}
+    static int n,m; 
+    public static boolean check(int l,int r,int u,int d)
+    {
+        return (l>=0 && r<m && u>=0 && d<n);
+    }
+    public static void main(String args[])
+     {
+         FastReader ob=new FastReader();
+         int t=ob.nextInt();
+         StringBuilder sb=new StringBuilder("");
+         while(t-->0)
+         {
+              n=ob.nextInt();
+              m=ob.nextInt();
+              int a[][]=new int[n][m];
+              for(int i=0;i<n;i++)
+              {
+                  for(int j=0;j<m;j++)
+                  {
+                      a[i][j]=ob.nextInt();
+                  }
+              }
+              int sum=0;
+              for(int i=0;i<n;i++)
+              {
+                  for(int j=0;j<m;j++)
+                  {
+                      int l=j-1,r=j+1,u=i-1,d=i+1;int c=0;
+                      while(check(l,r,u,d) && a[u][j]==a[d][j] && a[i][l]==a[i][r])
+                      {
+                          c++;
+                          l--;r++;u--;d++;
+                      }
+                      sum+=c;
+                  }
+              }
+              sb.append(sum+n*m);
+              sb.append("\n");
+              
+         }
+         System.out.println(sb);
+     }
+             
+}

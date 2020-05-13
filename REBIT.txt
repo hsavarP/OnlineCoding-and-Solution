@@ -1,0 +1,167 @@
+//Problem Link -> https://www.codechef.com/APRIL20B/problems/REBIT
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+author :  Pravash Ranjan Nayak
+//package pkg21.days.of.code;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.*;
+
+ class rbit {
+    static class FastReader{BufferedReader br;StringTokenizer st;public FastReader(){br = new BufferedReader(new InputStreamReader(System.in));}String next(){ while (st == null || !st.hasMoreElements()){try{st = new StringTokenizer(br.readLine());}
+        catch (IOException  e){e.printStackTrace();}}return st.nextToken();}int nextInt(){return Integer.parseInt(next());}long nextLong(){return Long.parseLong(next());} 
+        double nextDouble(){return Double.parseDouble(next());}String nextLine(){String str = ""; try{str = br.readLine();}catch (IOException e){e.printStackTrace();}return str;}}
+    static long m=998244353;
+    public static void main(String args[])
+    {
+        FastReader ob=new FastReader();
+        int t=ob.nextInt();
+        while(t-->0)
+        {
+            String L=ob.nextLine();
+            Stack<val> st=new Stack<>();
+            long cnt_hash=0;
+            for(int i=0;i<L.length();i++)
+            {
+                char c=L.charAt(i);
+                if(c=='(')
+                {
+                    val a=new val();a.c='(';
+                    st.push(a);
+                }
+                else if(c=='#')
+                {
+                    val a=new val();
+                    st.push(a);
+                    cnt_hash++;
+                }
+                else if(c=='&' || c=='|' || c=='^')
+                {
+                    val a=new val();a.c=c;
+                    st.push(a);
+                }
+                else
+                {
+                    val v1=new val();
+                    val v2=new val();
+                    val cal=new val();
+                    int cnt=0;char op=' ';
+                    while(!st.empty())
+                    {
+                        if(st.peek().c=='(')
+                        {
+                            st.pop();
+                            if(op=='^')
+                            {
+                                cal.zero=(v1.one%m*v2.one%m)%m+(v1.zero%m*v2.zero%m)%m+(v1.a%m*v2.a%m)%m+(v1.A%m*v2.A%m)%m;
+                                cal.one=(v1.one%m*v2.zero%m)%m+(v1.zero%m*v2.one%m)%m+(v1.a%m*v2.A%m)%m+(v1.A%m*v2.a%m)%m;
+                                cal.a=(v1.zero%m*v2.a%m)%m+(v1.a%m*v2.zero%m)%m+(v1.one%m*v2.A%m)%m+(v1.A%m*v2.one%m)%m;
+                                cal.A=(v1.zero%m*v2.A%m)%m+(v1.A%m*v2.zero%m)%m+(v1.one%m*v2.a%m)%m+(v1.a%m*v2.one%m)%m;
+                                
+                                cal.zero=cal.zero%m;cal.one=cal.one%m;cal.a=cal.a%m;cal.A=cal.A%m;
+                            }
+                            else if(op=='&')
+                            {
+                                cal.zero=(v1.zero%m*v2.zero%m)%m+(v1.zero%m*v2.one%m)%m+(v1.zero%m*v2.a%m)%m+(v1.zero%m*v2.A%m)%m+
+                                                            (v1.one%m*v2.zero%m)%m+(v1.a%m*v2.zero%m)%m+(v1.A%m*v2.zero%m)%m+
+                                        (v1.a%m*v2.A%m)%m+(v1.A%m*v2.a%m)%m;
+                                cal.one=(v1.one*v2.one);
+                                cal.a=(v1.a%m*v2.a%m)%m+(v1.one%m*v2.a%m)%m+(v1.a%m*v2.one%m)%m;
+                                cal.A=(v1.A%m*v2.A%m)%m+(v1.one%m*v2.A%m)%m+(v1.A%m*v2.one%m)%m;
+                                
+                                cal.zero=cal.zero%m;cal.one=cal.one%m;cal.a=cal.a%m;cal.A=cal.A%m;
+                                        
+                            }
+                            else if(op=='|')
+                            {
+                                cal.zero=(v1.zero%m*v2.zero%m)%m;
+                                cal.one=(v1.one%m*v2.one%m)%m+(v1.one%m*v2.zero%m)%m+(v1.one%m*v2.a%m)%m+(v1.one%m*v2.A%m)%m+
+                                                        (v1.zero%m*v2.one%m)%m+(v1.a%m*v2.one%m)%m+(v1.A%m*v2.one%m)%m+
+                                        (v1.a%m*v2.A%m)%m+(v1.A%m*v2.a%m)%m;
+                                cal.a=(v1.a%m*v2.a%m)%m+(v1.zero%m*v2.a%m)%m+(v1.a%m*v2.zero%m)%m;
+                                cal.A=(v1.A%m*v2.A%m)%m+(v1.zero%m*v2.A%m)%m+(v1.A%m*v2.zero%m)%m;
+                                
+                                cal.zero=cal.zero%m;cal.one=cal.one%m;cal.a=cal.a%m;cal.A=cal.A%m;
+                            }
+                            st.push(cal);
+                            break;
+                        }
+                        if(cnt==0)
+                           v1=st.pop();
+                        if(cnt==1)
+                            op=st.pop().c;
+                        if(cnt==2)
+                            v2=st.pop();
+                        cnt++;
+                        
+                    }//end of while popping from stack
+                }// if c==')'
+            }//for loop for traversing string
+            //System.out.println(cnt_hash);
+            val ans =new val();
+            ans=st.pop();
+            long pow=power(4,cnt_hash,m);
+            //System.out.println(pow);
+            long mi=modInverse(pow,m);
+            ans.zero=(ans.zero%m*mi%m)%m;
+            ans.one=(ans.one%m*mi%m)%m;
+            ans.a=(ans.a%m*mi%m)%m;
+            ans.A=(ans.A%m*mi%m)%m;
+            System.out.println(ans.zero+" "+ans.one+" "+ans.a+" "+ans.A);
+        }//test case while loop
+    }//end of main
+    static long power(long x, long y, long p) 
+    {
+        long res = 1;
+        x = x % p;  
+       if (x == 0) return 0;
+        while (y > 0) 
+        {
+            if((y & 1)==1) 
+                res = (res * x) % p;
+            y = y >> 1;  
+            x = (x * x) % p;  
+        } 
+        return res%m; 
+    } 
+    public static long modInverse(long a, long m) 
+    { 
+        long m0 = m; 
+        long y = 0, x = 1; 
+  
+        if (m == 1) 
+            return 0; 
+  
+        while (a > 1) 
+        { 
+            long q = a / m;   
+            long t = m;
+            m = a % m; 
+            a = t; 
+            t = y;
+            y = x - q * y; 
+            x = t; 
+        }
+        if (x < 0) 
+            x += m0;  
+        return x; 
+    } 
+    
+}//end of class
+class val
+{
+    long zero,one,a,A;
+    char c;
+    val()
+    {
+        zero=1;one=1;a=1;A=1;
+        c='V';
+    }
+}

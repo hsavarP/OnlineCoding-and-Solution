@@ -1,0 +1,58 @@
+//https://www.codechef.com/problems/TRISQ
+//author : Pravash Ranjan Nayak
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+//package pkg21.days.of.code;
+
+/**
+ *
+ * @author Pravash Ranjan
+ */
+import java.util.*;
+class FItSquareInTriangles {
+    static class FastReader{BufferedReader br;StringTokenizer st;public FastReader(){br = new BufferedReader(new InputStreamReader(System.in));}String next(){ while (st == null || !st.hasMoreElements()){try{st = new StringTokenizer(br.readLine());}
+        catch (IOException  e){e.printStackTrace();}}return st.nextToken();}int nextInt(){return Integer.parseInt(next());}long nextLong(){return Long.parseLong(next());} 
+        double nextDouble(){return Double.parseDouble(next());}String nextLine(){String str = ""; try{str = br.readLine();}catch (IOException e){e.printStackTrace();}return str;}}
+    public static void main(String args[])
+    {
+        int ans[]=new int[10000+1];
+        for(int i=1;i<=10000;i++)
+        {
+           ans[i]=(int)(findSquares(i));
+        }
+        FastReader ob=new FastReader();
+        int T=ob.nextInt();
+        while(T-->0)
+            System.out.println(ans[ob.nextInt()]);
+    }
+    public static double findSquares(int n)
+    {
+        double ans=0;
+        double m1=-1,c1=n;
+        double m2=1,c2=0;
+        double xpt=(c2-c1)/(m1-m2);
+        double ypt=m1*xpt+c1;
+        ans+=Math.min((int)xpt/2,(int)ypt/2);
+        //System.out.println(xpt+" "+ypt);
+        for(int i=2;i<=n;i+=2)
+        {
+             c2=-i;
+             xpt=(c2-c1)/(m1-m2);
+             ypt=m1*xpt+c1;
+             ans=ans+Math.min((int)(xpt-i)/2,(int)(ypt-0)/2)*2;
+             //System.out.println(i+" "+xpt+" "+ypt);
+             
+        }
+        return ans;
+    }
+    
+}

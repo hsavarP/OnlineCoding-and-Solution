@@ -1,0 +1,99 @@
+// https://www.codechef.com/problems/THEATRE
+// author : Pravash Ranjan Nayak
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+class Feb2020_3 {
+    static class FastReader{BufferedReader br;StringTokenizer st;public FastReader(){br = new BufferedReader(new InputStreamReader(System.in));}String next(){ while (st == null || !st.hasMoreElements()){try{st = new StringTokenizer(br.readLine());}
+        catch (IOException  e){e.printStackTrace();}}return st.nextToken();}int nextInt(){return Integer.parseInt(next());}long nextLong(){return Long.parseLong(next());} 
+        double nextDouble(){return Double.parseDouble(next());}String nextLine(){String str = ""; try{str = br.readLine();}catch (IOException e){e.printStackTrace();}return str;}}
+    static HashSet<Integer> showtime;
+    static HashSet<Integer> price;
+    static HashMap<Integer,Integer> showToNum;
+    static HashMap<Integer,Integer> priceToNum;
+    static HashSet<Integer> priceCovered;
+    static HashSet<Integer> showTimeCovered;
+    static HashSet<Integer> notCovered;
+    static int in[][];
+    static int max=-100000000;
+    public static void main(String args[])
+    {
+        showToNum=new HashMap<>();priceToNum=new HashMap<>();
+        showToNum.put(12,0);showToNum.put(3,1);showToNum.put(6,2);showToNum.put(9,3);
+        priceToNum.put(0,25);priceToNum.put(1,50);priceToNum.put(2,75);priceToNum.put(3,100);
+        FastReader ob=new FastReader();
+        int t=ob.nextInt();
+        int sm=0;
+        while(t-->0)
+        {
+             in=new int[4][4];
+            int n=ob.nextInt();
+            for(int i=0;i<n;i++)
+            {
+                String s=ob.nextLine();s=s.trim();                
+                char c=s.charAt(0);
+                int sh=Integer.parseInt((s.split(" "))[1]);
+                in[c-'A'][showToNum.get(sh)]++;               
+            }
+            notCovered=new HashSet<>();showTimeCovered=new HashSet<>();priceCovered=new HashSet<>();
+            
+            max=-100000000;
+            recurse(0,0);
+            sm+=max;
+            System.out.println(max);
+            
+        }
+        System.out.println(sm);
+        
+        
+    }
+    public static void recurse(int movie,int profit)
+    {
+        if(movie==4)
+        {
+            profit=profit-100*notCovered.size();
+            //System.out.println(profit);
+            max=Math.max(profit,max);
+            return;
+        }
+        for(int i=0;i<4;i++)
+        {
+            for(int j=0;j<4;j++)
+            {
+                if(!showTimeCovered.contains(i) && !priceCovered.contains(j))
+                {
+                    showTimeCovered.add(i);priceCovered.add(j);
+                    if(in[movie][i]==0)
+                        notCovered.add(movie);
+                    recurse(movie+1,profit+in[movie][i]*priceToNum.get(j));
+                    showTimeCovered.remove(i);priceCovered.remove(j);
+                    if(notCovered.contains(movie))
+                        notCovered.remove(movie);
+                }
+            }
+        }
+    }
+    
+}
+/*
+1
+12
+A 3
+B 12
+C 6
+A 9
+B 12
+C 12
+D 3
+B 9
+D 3
+B 12
+B 9
+C 6
+
+*/

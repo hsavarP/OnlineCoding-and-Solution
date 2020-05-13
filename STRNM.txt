@@ -1,0 +1,31 @@
+//https://www.codechef.com/problems/STRNM
+//author : Pravash Ranjan Nayak
+import java.util.*;
+class Solution
+{
+    
+    public static void main(String args[])
+    {
+        Scanner ob=new Scanner(System.in);
+        int m=(int)1e9+7;
+        int T=ob.nextInt();
+        ob.nextLine();
+        while(T-->0)
+        {
+            
+            String s=ob.nextLine();
+            long sum=0;
+            int n=s.length();long p=1;
+            for(int i=n-1;i>-1;i--)
+            {
+               char c=s.charAt(i);
+               if(c=='a' || c=='e' || c=='i' || c=='o' || c=='u')
+               sum=(sum%m+p%m)%m;
+               p=(p%m*2%m)%m; 
+            }
+            System.out.println(sum);
+        }
+
+
+    }
+}

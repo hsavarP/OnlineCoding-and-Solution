@@ -1,0 +1,47 @@
+//https://www.codechef.com/problems/NOKIA
+//author : Pravash Ranjan Nayak
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+//package pkg21.days.of.code;
+
+/**
+ *
+ * @author Pravash Ranjan
+ */
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+class NokiaFinal {
+    static class FastReader{BufferedReader br;StringTokenizer st;public FastReader(){br = new BufferedReader(new InputStreamReader(System.in));}String next(){ while (st == null || !st.hasMoreElements()){try{st = new StringTokenizer(br.readLine());}
+        catch (IOException  e){e.printStackTrace();}}return st.nextToken();}int nextInt(){return Integer.parseInt(next());}long nextLong(){return Long.parseLong(next());} 
+        double nextDouble(){return Double.parseDouble(next());}String nextLine(){String str = ""; try{str = br.readLine();}catch (IOException e){e.printStackTrace();}return str;}}
+    public static void main(String args[])
+    {
+        int min[]={0, 2, 5, 8, 12, 16, 20, 24, 29, 34, 39, 44, 49, 54, 59, 64, 70, 76, 82, 88, 94, 100, 106, 112, 118, 124, 130, 136, 142, 148, 154, 160, 167, 174, 181};
+        int max[]={0, 2, 5, 9, 14, 20, 27, 35, 44, 54, 65, 77, 90, 104, 119, 135, 152, 170, 189, 209, 230, 252, 275, 299, 324, 350, 377, 405, 434, 464, 495, 527, 560, 594};
+        //System.out.println(max.length);
+        FastReader ob=new FastReader();
+        int T=ob.nextInt();
+        StringBuilder sb=new StringBuilder("");
+        while(T-->0)
+        {
+            int n=ob.nextInt();
+            int m =ob.nextInt();
+            if(m>=min[n] && m<=max[n])
+                sb.append("0"+"\n");
+            else if(m<min[n])
+                sb.append("-1"+"\n");
+            else
+            {
+                int req=m-max[n];
+                sb.append(req+"\n");
+                        }
+                
+        }
+        System.out.println(sb);
+    }
+}
